@@ -1,6 +1,7 @@
 package beatmax.psgrinder;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -27,6 +28,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -234,6 +236,8 @@ public class ChromeTabActivity extends AppCompatActivity
 
         private ChromeTabActivity mParentActivity;
 
+        private ProgressBar mProgressBar;
+
 
         public PlaceholderFragment()
         {
@@ -278,6 +282,8 @@ public class ChromeTabActivity extends AppCompatActivity
             mParentActivity.setTitle();
             mParentActivity.setUrl();
 
+            mProgressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
+
 
             mWebView = (ObservableWebView) rootView.findViewById(R.id.webView);
             // Enable javascript
@@ -286,7 +292,17 @@ public class ChromeTabActivity extends AppCompatActivity
             mWebView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
 
             // Set WebView client
-            mWebView.setWebChromeClient(new WebChromeClient());
+            mWebView.setWebChromeClient(new MyWebChromeClient(new MyWebChromeClient.ProgressListener()
+            {
+                @Override
+                public void onUpdateProgress(int progressValue)
+                {
+                    mProgressBar.setProgress(progressValue);
+                    if (progressValue == 100) {
+                        mProgressBar.setVisibility(View.GONE);
+                    }
+                }
+            }));
 
             mWebView.setWebViewClient(new WebViewClient() {
 
@@ -297,9 +313,19 @@ public class ChromeTabActivity extends AppCompatActivity
                 }
 
                 @Override
+                public void onPageStarted(WebView view, String url, Bitmap favicon)
+                {
+                    super.onPageStarted(view, url, favicon);
+                    mSiteTitle = view.getTitle();
+                    mParentActivity.setTitle();
+                    mProgressBar.setVisibility(View.VISIBLE);
+                }
+
+                @Override
                 public void onPageFinished(WebView view, String url) {
                     mSiteTitle = view.getTitle();
                     mParentActivity.setTitle();
+                    mProgressBar.setVisibility(View.GONE);
                 }
 
 
@@ -403,6 +429,8 @@ public class ChromeTabActivity extends AppCompatActivity
             super.onViewStateRestored(savedInstanceState);
             mWebView.restoreState(savedInstanceState);
         }
+
+
 
         public String getSiteTitle(){
             return mSiteTitle;
