@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/content_main"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="beatmax.psgrinder.MainActivity"
+    tools:showIn="@layout/activity_main">
+
+
+    <Button
+        android:text="ChromeTab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnChromeTab"/>
+
+    <Button
+        android:text="Favorites"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnChromeTab"
+        android:layout_alignParentStart="true"
+        android:id="@+id/btnFavorites"/>
+
+    <Button
+        android:text="All New Threads"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnAllNewThreads"
+        android:layout_below="@+id/btnFavorites"
+        android:layout_alignParentStart="true"/>
+
+    <Button
+        android:text="Home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnAllNewThreads"
+        android:layout_alignEnd="@+id/btnAllNewThreads"
+        android:id="@+id/btnHomepage"/>
+</RelativeLayout>
